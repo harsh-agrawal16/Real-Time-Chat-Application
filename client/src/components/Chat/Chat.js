@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
+import './Chat.css'
 
 let socket;
 
@@ -39,8 +40,10 @@ const Chat = ({ location }) => {
 
 
     return (
-        <div>
-            <h1>hello</h1>
+        <div className = 'outerContainer'>
+            <div className = 'contianer'>
+                <h1>{name + ' ' + 'room'}</h1>
+            </div>
         </div>
     )
 }
