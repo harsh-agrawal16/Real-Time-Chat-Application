@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
 const router = require('./router');
+const {addUser, removeUser , getUser, getUsersInOneRoom } = require('./Users/users');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -20,7 +21,7 @@ io.on('connection', (socket) => {
     socket.on('join', (data, callback) => {
         console.log(data.name);
         console.log(data.room);
-
+        
         const error = 'testing callback'
         //using callback we can do some error handling.
         if(error) callback({error : error});
