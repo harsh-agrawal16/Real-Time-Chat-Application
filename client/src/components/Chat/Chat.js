@@ -41,8 +41,8 @@ const Chat = ({ location }) => {
 
     return (
         <div className = 'outerContainer'>
-            <div className = 'contianer'>
-                <h1>{name + ' ' + 'room'}</h1>
+            <div className = 'container'>
+                <h1>{name + ' ' + room}</h1>
             </div>
         </div>
     )
