@@ -13,7 +13,18 @@ app.use(router);
 
 //integrating socket io in our applcation.
 io.on('connection', (socket) => {
-    console.log(socket);
+    //console.log(socket);
+    console.log('user has joined');
+    
+    //we can also pass callback with socket.on and socket.emit
+    socket.on('join', (data, callback) => {
+        console.log(data.name);
+        console.log(data.room);
+
+        const error = 'testing callback'
+        //using callback we can do some error handling.
+        if(error) callback({error : error});
+    });
 
     socket.on('disconnect', () => {
         console.log('user had disconnected!!!');
