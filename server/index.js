@@ -22,9 +22,23 @@ io.on('connection', (socket) => {
         console.log(data.name);
         console.log(data.room);
         
-        const error = 'testing callback'
+        const { user, error } = addUser({id : socket.id, name : data.name, room : data.room});
+     
         //using callback we can do some error handling.
         if(error) callback({error : error});
+
+        if(user) console.log('Welcome : ', user);
+
+        socket.emit('message', { user : 'admin',  text : ' Welcome to the room ' + data.name});
+        socket.broadcast.to(user.room).emit('message', {user : 'admin', text : user.name + ' has joined.'});
+        socket.join(user.room);
+    });
+
+    socket.on('sendMessage', (message, callback) => {
+        const user = getUser(socket.id);
+        console.log(user);
+        io.to(user.room).emit('message', { user : user.name , text : message});
+        callback();
     });
 
     socket.on('disconnect', () => {

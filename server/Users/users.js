@@ -2,8 +2,8 @@
 let users = [];
 
 const addUser = ({id, name, room}) => {
-    name = name.trim().toLowercase();
-    room = room.trim().toLowercase();
+    name = name.trim().toLowerCase();
+    room = room.trim().toLowerCase();
 
     const isPresent = users.find((user) => user.name === name && user.room === room);
 
@@ -12,10 +12,10 @@ const addUser = ({id, name, room}) => {
         return {error : 'Username is already taken by another.'}
     }
     
-    const user = {id, name , room};
+    const user = {id, name, room};
     users = [...users, user];
 
-    return { user : user };
+    return {user : user};
 }
 
 const removeUser = (id) => {
@@ -29,9 +29,8 @@ const removeUser = (id) => {
 
 const getUser = (id) => users.find((user) => user.id === id);
 
-const getUsersInOneRoom = (room){
+const getUsersInOneRoom = (room) => {
     const usersInOneRoom = users.filter((user) => user.room === room);
-
     return usersInOneRoom;
 }
 

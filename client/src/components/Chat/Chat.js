@@ -5,12 +5,13 @@ import './Chat.css'
 
 let socket;
 
-
 const Chat = ({ location }) => {
 
     const END_POINT = 'localhost:5000'
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('');
 
     //this is similar to componentwillmount and componentdidupdate
     //this happens when the component renders
@@ -22,27 +23,49 @@ const Chat = ({ location }) => {
         //emitting events
         socket.emit('join', {name : name, room : room}, (error)=>{
             console.log(error);
-            //alert(error);
+            alert(error);
+        });
+
+        socket.on('message', (data, callback) => {
+            console.log('Message: ', data.text);
         });
         
         setName(name);
         setRoom(room);
 
-        return () => {
-            socket.emit('disconnect');
+        // return () => {
+        //     //socket.emit('disconnect');
 
-            socket.off();
-        }
-
-
-
+        //     socket.off();
+        // }
     }, [END_POINT, location.search]);
 
+    //this useEffect handles the messages.
+    useEffect(() => {
+        socket.on('message', (message) => {
+            setMessages([...messages, message]);
+        });
+    }, [messages]);
+
+    //define a function for sending messages.
+    const sendMessage = (event) => {
+        event.preventDefault(); //to avoid sending message everytime the page is refreshed.
+
+        if(message) {
+            console.log(message);
+            socket.emit('sendMessage', message , () => {
+                setMessage('');
+            });
+        }
+    };
 
     return (
         <div className = 'outerContainer'>
             <div className = 'container'>
-                <h1>{name + ' ' + room}</h1>
+                <input value = {message}
+                    onChange = {(event) => setMessage(event.target.value)}
+                    onKeyPress = {(event) => event.key === 'Enter' ? sendMessage(event) : null}
+                />
             </div>
         </div>
     )
