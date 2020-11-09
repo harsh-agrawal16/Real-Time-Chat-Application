@@ -8,9 +8,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server); //instance of socket.io
+const cors = require('cors');
 
 //middleware
 app.use(router);
+app.use(cors);
 
 //integrating socket io in our applcation.
 io.on('connection', (socket) => {
