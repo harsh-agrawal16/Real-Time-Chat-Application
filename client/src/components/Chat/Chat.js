@@ -4,6 +4,7 @@ import io from 'socket.io-client'
 import './Chat.css'
 import Header from '../Header/Header';
 import Input from '../Input/Input';
+import Messages from '../Messages/Messages'
 
 let socket;
 
@@ -31,9 +32,10 @@ const Chat = ({ location }) => {
             alert(error);
         });
 
-        socket.on('message', (data, callback) => {
-            console.log('Message: ', data.text);
-        });
+        // socket.on('message', (data, callback) => {
+        //     console.log('Message: ', data.text);
+    
+        // }); 
     }, [END_POINT, location.search]);
 
     //this useEffect handles the messages.
@@ -61,7 +63,8 @@ const Chat = ({ location }) => {
         <div className = 'outerContainer'>
             <div className = 'container'>
                 <Header room = {room}/>
-                <Input sendMessage = {sendMessage} setMessage = {setMessage} message = {message}/>
+                <Messages message = {message} messages = {messages} name = {name} room = {room} />
+                <Input sendMessage = {sendMessage} setMessage = {setMessage} message = {message} />
             </div>
         </div>
     )
