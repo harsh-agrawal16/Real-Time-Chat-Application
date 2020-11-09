@@ -5,7 +5,7 @@ import Message from '../Message/Message'
 
 const Messages = (props) => {
     return(
-    <ScrollToBottom>
+    <ScrollToBottom className = 'messages'>
         {props.messages.map((msg, i) => <div key = {i}> <Message message = {msg} name = {props.name}/> </div>)}
     </ScrollToBottom>
     );
