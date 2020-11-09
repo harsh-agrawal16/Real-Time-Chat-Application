@@ -10,11 +10,9 @@ const Join = () => {
 
 
     return (
-        <div> 
-        <h1 className = 'heading toCenter title' >Chat Room Application</h1>
         <div className="joinOuterContainer">
           <div className="joinInnerContainer">
-            <h1 className="heading">Join</h1>
+            <h1 className="heading">Group Chat</h1>
             <div>
               <input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} />
             </div>
@@ -25,7 +23,6 @@ const Join = () => {
               <button className={'button mt-20'} type="submit">Sign In</button>
             </Link>
           </div>
-        </div>
         </div>
       );
 }

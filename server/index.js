@@ -30,21 +30,28 @@ io.on('connection', (socket) => {
         socket.join(user.room);
 
         console.log('Welcome : ', user);
+
         socket.emit('message', { user : 'admin',  text : ' Welcome to the room ' + data.name});
+
         socket.broadcast.to(user.room).emit('message', {user : 'admin', text : user.name + ' has joined.'});
-        
+
+        io.to(user.room).emit('roomData', {room : user.room, users : getUsersInOneRoom(user.room)});
     });
 
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
         console.log(user);
-        io.to(user.room).emit('message', { user : user.name , text : message});
-        callback();
+        if(user) io.to(user.room).emit('message', { user : user.name , text : message});
+        //callback();
     });
 
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         console.log('user had disconnected!!!');
+        if(user){
+            io.to(user.room).emit('message', {user : 'admin', text : user.name + ' had left'});
+            io.to(user.room).emit('roomData', {room : user.room, users : getUsersInOneRoom(user.room)});
+        }
     })
 });
 

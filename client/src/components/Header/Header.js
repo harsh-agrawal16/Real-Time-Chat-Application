@@ -7,7 +7,7 @@ const Header = (props) => {
          <div className = 'header'>
              <div className = 'leftInnerContainer'>
                  <img className = 'onlineIcon' src = {online} alt = 'online icon'/>
-                <h3>{props.room}</h3>
+                <h3>{props.title}</h3>
              </div>
              <div className = 'rightInnerContainer'>
                  <a href = '/'>Close</a>

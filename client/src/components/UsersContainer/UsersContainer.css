@@ -1,0 +1,16 @@
+.usersContainer{
+   padding: 1% 0%;
+   overflow: auto;
+   flex: auto;
+   background-color: white;
+   border-style: solid;
+}
+
+.onlineIcon{
+    width: 20px;
+}
+
+.userName{
+    padding-left: 5px;
+    color: green;
+}

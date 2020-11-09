@@ -5,16 +5,18 @@ import './Chat.css'
 import Header from '../Header/Header';
 import Input from '../Input/Input';
 import Messages from '../Messages/Messages'
+import UsersContainer from '../UsersContainer/UsersContainer'
 
 let socket;
 
 const Chat = ({ location }) => {
-
+    //let users = [{user : 'admin'}];
     const END_POINT = 'localhost:5000'
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
+    const [users, setUsers] = useState([]);
 
     //this is similar to componentwillmount and componentdidupdate
     //this happens when the component renders
@@ -30,12 +32,14 @@ const Chat = ({ location }) => {
         socket.emit('join', {name : name, room : room}, (error)=>{
             console.log(error);
             alert(error);
+        });  
+        
+        socket.on('roomData' , ({room, users}, callback) => {
+            console.log(users);
+            setUsers([...users, users]);
         });
+        console.log(users);
 
-        // socket.on('message', (data, callback) => {
-        //     console.log('Message: ', data.text);
-    
-        // }); 
     }, [END_POINT, location.search]);
 
     //this useEffect handles the messages.
@@ -62,10 +66,15 @@ const Chat = ({ location }) => {
     return (
         <div className = 'outerContainer'>
             <div className = 'container'>
-                <Header room = {room}/>
+                <Header title = {room}/>
                 <Messages message = {message} messages = {messages} name = {name} room = {room} />
                 <Input sendMessage = {sendMessage} setMessage = {setMessage} message = {message} />
             </div>
+            <div className='rightContainer'>
+                 <Header title = 'Online' />
+                 <UsersContainer users = {users}/>
+            </div>
+            
         </div>
     )
 }
