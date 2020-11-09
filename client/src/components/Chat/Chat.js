@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import queryString from 'query-string'
 import io from 'socket.io-client'
 import './Chat.css'
+import Header from '../Header/Header';
+import Input from '../Input/Input';
 
 let socket;
 
@@ -19,6 +21,9 @@ const Chat = ({ location }) => {
         //destructuring
         const {name , room} = queryString.parse(location.search); //makes a javascript object of the attributes in the url.
 
+        setName(name);
+        setRoom(room);
+
         socket = io(END_POINT);
         //emitting events
         socket.emit('join', {name : name, room : room}, (error)=>{
@@ -29,15 +34,6 @@ const Chat = ({ location }) => {
         socket.on('message', (data, callback) => {
             console.log('Message: ', data.text);
         });
-        
-        setName(name);
-        setRoom(room);
-
-        // return () => {
-        //     //socket.emit('disconnect');
-
-        //     socket.off();
-        // }
     }, [END_POINT, location.search]);
 
     //this useEffect handles the messages.
@@ -59,13 +55,13 @@ const Chat = ({ location }) => {
         }
     };
 
+    console.log(message, messages);
+
     return (
         <div className = 'outerContainer'>
             <div className = 'container'>
-                <input value = {message}
-                    onChange = {(event) => setMessage(event.target.value)}
-                    onKeyPress = {(event) => event.key === 'Enter' ? sendMessage(event) : null}
-                />
+                <Header room = {room}/>
+                <Input sendMessage = {sendMessage} setMessage = {setMessage} message = {message}/>
             </div>
         </div>
     )

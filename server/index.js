@@ -27,11 +27,12 @@ io.on('connection', (socket) => {
         //using callback we can do some error handling.
         if(error) callback({error : error});
 
-        if(user) console.log('Welcome : ', user);
+        socket.join(user.room);
 
+        console.log('Welcome : ', user);
         socket.emit('message', { user : 'admin',  text : ' Welcome to the room ' + data.name});
         socket.broadcast.to(user.room).emit('message', {user : 'admin', text : user.name + ' has joined.'});
-        socket.join(user.room);
+        
     });
 
     socket.on('sendMessage', (message, callback) => {
@@ -42,6 +43,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
+        const user = removeUser(socket.id);
         console.log('user had disconnected!!!');
     })
 });
